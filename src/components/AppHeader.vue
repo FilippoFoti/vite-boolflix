@@ -22,7 +22,7 @@ export default {
             </figure>
             <nav>
                 <input type="text" placeholder="Cerca in Bollflix.." @keyup.enter="$emit('search')" v-model.trim="store.curSearch">
-                <button>Cerca &nbsp; <i class="fa-solid fa-magnifying-glass"></i></button>
+                <!-- <button>Cerca &nbsp; <i class="fa-solid fa-magnifying-glass"></i></button> -->
             </nav>
         </div>
     </header>
@@ -35,6 +35,9 @@ export default {
 header {
     height: 80px;
     width: 100%;
+    position: fixed;
+    z-index: 999;
+    background-color: black;
 
     .container {
         height: 80px;

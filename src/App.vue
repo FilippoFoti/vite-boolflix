@@ -1,7 +1,7 @@
 <script>
 import AppHeader from "./components/AppHeader.vue";
 import AppMain from "./components/AppMain.vue";
-import { store } from "./store";
+// import { store } from "./store";
 // import axios from "axios";
 
 export default {
@@ -9,11 +9,11 @@ export default {
         AppHeader,
         AppMain
     },
-    data() {
-      return {
-        store
-      }
-    }
+    // data() {
+    //   return {
+    //     store
+    //   }
+    // }
 }
 
 </script>
