@@ -1,19 +1,30 @@
 <script>
+import { store } from "../store"
+
 export default {
-    name: "AppCArd",
+    name: "AppCard",
+    props: [
+        "movie"
+    ],
+    data() {
+        return {
+            store
+        }
+    }
 }
 </script>
 
 <template>
     <div class="card">
         <figure>
-            <img src="" alt="Copertina">
+            <img :src="`${store.imgPath}${movie.poster_path}`" alt="Copertina non disponibile">
         </figure>
         <ul>
-            <li><span>Titolo:</span> {{  }}</li>
-            <li><span>Titolo Originale:</span> {{  }}</li>
-            <li><span>Lingua:</span> {{  }}</li>
-            <li><span>Voto:</span> {{  }}</li>
+            <li v-if="movie.title"><span>Titolo:</span> {{ movie.title }}</li>
+            <li v-else><span>Name:</span> {{ movie.name }}</li>
+            <li v-if="movie.original_title"><span>Titolo Originale:</span> {{ movie.original_title }}</li>
+            <li><span>Lingua:</span> {{ movie.original_language }}</li>
+            <li><span>Voto:</span> {{ movie.vote_average }}</li>
         </ul>
     </div>
 </template>
@@ -24,20 +35,38 @@ export default {
 
 .card {
     color: $second;
-    height: 400px;
     width: 100%;
+    // height: 400px;
+    position: relative;
+
+    figure {
+        height: 350px;
+
+        img {
+            height: 100%;
+            width: 100%;
+        }
+    }
 
     ul {
         list-style-type: none;
-        width: 95%;
-        margin: 0 auto;
-        padding-top: 30px;
+        width: 100%;
+        height: 100%;
+        padding: 30px 10px;
+        position: absolute;
+        top: 0;
+        opacity: 0;
+        background-color: rgba( 0, 0, 0, 0.8);
 
         li {
 
             span {
                 font-weight: bold;
             }
+        }
+
+        &:hover {
+            opacity: 1;
         }
     }
 }

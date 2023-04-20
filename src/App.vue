@@ -1,25 +1,56 @@
 <script>
 import AppHeader from "./components/AppHeader.vue";
 import AppMain from "./components/AppMain.vue";
-// import { store } from "./store";
-// import axios from "axios";
+import { store } from "./store";
+import axios from "axios";
 
 export default {
   components: {
-        AppHeader,
-        AppMain
+    AppHeader,
+    AppMain
+  },
+  data() {
+    return {
+      store
+    }
+  },
+  methods: {
+    performSearch() {
+      if (this.store.curSearch) {
+        this.getMovies();
+        this.getSeries();
+      }
     },
-    // data() {
-    //   return {
-    //     store
-    //   }
-    // }
+    getMovies() {
+      axios.get(`${this.store.apiBaseUrl}/search/movie`, {
+        params: {
+          api_key: this.store.apiKey,
+          query: this.store.curSearch
+        }
+      }).then((resp) => {
+        this.store.movies = resp.data.results;
+      }).catch(err => {
+        console.log(err);
+      })
+    },
+    getSeries() {
+      axios.get(`${this.store.apiBaseUrl}/search/tv`, {
+        params: {
+          api_key: this.store.apiKey,
+          query: this.store.curSearch
+        }
+      }).then((resp) => {
+        this.store.series = resp.data.results;
+      }).catch(err => {
+        console.log(err);
+      })
+    }
+  }
 }
-
 </script>
 
 <template>
-  <AppHeader />
+  <AppHeader @search="performSearch" />
   <AppMain />
 </template>
 
