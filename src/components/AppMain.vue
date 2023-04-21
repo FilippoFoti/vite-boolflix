@@ -17,7 +17,8 @@ export default {
 </script>
 
 <template>
-    <main>
+    <h3 v-if="!store.movies.length">Inizia la tua ricerca..</h3>
+    <main v-else>
         <div class="container">
             <h2>Film</h2>
             <div class="row">
@@ -40,6 +41,13 @@ export default {
 <style scoped lang="scss">
 @use "../style/partials/variables" as *;
 @use "../style/partials/mixins" as *;
+
+h3 {
+        color: white;
+        text-align: center;
+        font-size: 2.5rem;
+        padding-top: 120px;
+    }
 
 main {
     // height: 100vh;

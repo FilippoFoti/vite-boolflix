@@ -1,25 +1,44 @@
 <script>
 import { store } from "../store";
-import LangFlag from "vue-lang-code-flags";
+// import LangFlag from "vue-lang-code-flags";
 
 export default {
     name: "AppCard",
-    components: {
-        LangFlag
-    },
+    // components: {
+    //     LangFlag
+    // },
     props: [
         "movie"
     ],
     data() {
         return {
-            store
+            store,
+            flagsAvailable: { 
+                cn: "cn.png",
+                de: "de.jpg",
+                fr: "fr.png",
+                it: "it.jpg",
+                jp: "jp.png",
+                kr: "kr.png",
+                pt: "pt.jpg",
+                rs: "rs.jpg",
+                es: "sp.jpg",
+                en: "uk.jpg",
+                us: "us.png",
+            }
         }
     },
     computed: {
         votes() {
             return parseInt(this.movie.vote_average / 2)
         }
+    },
+    methods: {
+        getImgPath(imgPath) {
+            return new URL(imgPath, import.meta.url).href;
+        }
     }
+
 }
 </script>
 
@@ -32,8 +51,10 @@ export default {
             <li v-if="movie.title"><span>Titolo:</span> {{ movie.title }}</li>
             <li v-else><span>Name:</span> {{ movie.name }}</li>
             <li v-if="movie.original_title"><span>Titolo Originale:</span> {{ movie.original_title }}</li>
-            <li><span>Lingua:</span><lang-flag v-if="movie.original_language" :iso="`${ movie.original_language }`"/></li>
-            <li><span>Voto:</span> <span v-for="i in store.stars"><i :class="[(i <= votes) ? 'fa-solid fa-star' : 'fa-regular fa-star']"></i></span></li>
+            <!-- <li><span>Lingua:</span><lang-flag v-if="movie.original_language" :iso="`${ movie.original_language }`"/></li> -->
+            <li v-if="!flagsAvailable[movie.original_language]"><span>Lingua:</span> {{ movie.original_language }}</li>
+            <li v-else><span>Lingua:</span><img :src="getImgPath(`../assets/flag/${flagsAvailable[movie.original_language]}`)" alt=""></li>
+            <li><span>Voto:</span> <span v-for="i in store.stars"><i :class="(i <= votes ? 'fa-solid fa-star' : 'fa-regular fa-star')"></i></span></li>
         </ul>
     </div>
 </template>
@@ -69,6 +90,7 @@ export default {
         font-size: 1.3rem;
 
         li {
+            padding: 5px 0;
 
             span {
                 font-weight: bold;
@@ -77,11 +99,16 @@ export default {
                     color: rgba(255, 189, 0, 1);
                 }
             }
+
+            img {
+                width: 25px;
+            }
         }
 
         &:hover {
             opacity: 1;
         }
+
     }
 }
 </style>
